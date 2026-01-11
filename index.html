@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Radio Streaming DJKEVIN</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, sans-serif;
+}
+
+body{
+    background:#000;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    overflow:hidden;
+}
+
+/* VIDEO DE FONDO EN TODA LA PANTALLA */
+.background-video {
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    object-fit:cover; /* se adapta al tamaño de pantalla */
+    z-index:-1; /* siempre detrás */
+}
+
+/* CONTENEDOR PRINCIPAL */
+.mobile-container{
+    width:100%;
+    max-width:414px;
+    height:100vh;
+    position:relative;
+    overflow:hidden;
+    color:#fff;
+    display:flex;
+    flex-direction:column;
+    z-index:0;
+    box-shadow:0 10px 30px rgba(0,0,0,.6);
+}
+
+/* CAPA OSCURA */
+.mobile-container::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,.4);
+    z-index:0;
+}
+
+.mobile-container > *{
+    position:relative;
+    z-index:1; /* contenido visible sobre capa oscura */
+}
+
+/* HEADER */
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px;
+    font-weight:bold;
+}
+
+.header i{
+    font-size:1.4rem;
+    cursor:pointer;
+}
+
+/* MAIN */
+.main-content{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+
+/* LOGO CIRCULAR CON VIDEO */
+.logo-container{
+    width:260px;
+    height:260px;
+    border-radius:50%;
+    border:5px solid rgba(255,255,255,.3);
+    padding:0;
+    box-shadow:0 0 30px rgba(0,0,255,.6);
+    margin-bottom:30px;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.logo-video{
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+/* ESTADO */
+.status-bar{
+    display:flex;
+    gap:10px;
+    margin-bottom:15px;
+    font-size:.9rem;
+}
+
+.live-badge{
+    background:red;
+    padding:2px 8px;
+    border-radius:4px;
+    font-weight:bold;
+}
+
+/* INFO */
+.artist-info{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.artist-name{
+    font-size:1.7rem;
+    font-weight:900;
+    color:#ffffff;
+    text-shadow:2px 2px 5px #000;
+}
+
+/* CONTROLES */
+.controls-container{
+    display:flex;
+    align-items:center;
+    gap:30px;
+}
+
+.control-icon{
+    font-size:1.5rem;
+    cursor:pointer;
+}
+
+.play-button{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    background:navy;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:2rem;
+    cursor:pointer;
+}
+
+/* FOOTER */
+.bottom-section{
+    background:rgba(0,0,0,.4);
+    padding:20px;
+    border-top-left-radius:30px;
+    border-top-right-radius:30px;
+    text-align:center;
+}
+
+.social-icons{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    margin-bottom:15px;
+}
+
+.social-btn{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#fff;
+    font-size:1.4rem;
+    text-decoration:none;
+}
+
+.fb{background:#3b5998;}
+.insta{background:#d6249f;}
+.wa{background:#25D366;}
+.web{background:#00a8e8;}
+.yt{background:#c4302b;}
+
+.phone-number{
+    font-size:2rem;
+    font-weight:bold;
+}
+
+audio{display:none;}
+
+/* ADAPTACIONES MOVIL / PWA */
+@media (max-width:414px){
+    .logo-container{
+        width:200px;
+        height:200px;
+    }
+    .artist-name{
+        font-size:1.5rem;
+    }
+    .play-button{
+        width:60px;
+        height:60px;
+        font-size:1.8rem;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- VIDEO DE FONDO -->
+<video class="background-video" autoplay loop muted playsinline>
+    <source src="https://github.com/DJKEVINMM/boqueto/raw/refs/heads/main/fondo.mp4" type="video/mp4">
+    Tu navegador no soporta video de fondo.
+</video>
+
+<div class="mobile-container">
+
+<header class="header">
+    <i class="fas fa-bars"></i>
+    <span></span>
+    <i class="fas fa-share-nodes"></i>
+</header>
+
+<main class="main-content">
+
+    <!-- VIDEO LOGO CIRCULAR -->
+    <div class="logo-container">
+        <video class="logo-video" autoplay loop muted playsinline>
+            <source src="https://github.com/DJKEVINMM/boqueto/raw/refs/heads/main/more.mp4">
+            Tu navegador no soporta video.
+        </video>
+    </div>
+
+    <div class="status-bar">
+        <span>REPRODUCIENDO</span>
+        <span class="live-badge">EN VIVO</span>
+    </div>
+
+    <div class="artist-info">
+        <div class="artist-name">RADIO NUEVA ERA</div>
+        <div class="artist-name">MÁLAGA-ESPAÑA</div>
+    </div>
+
+    <div class="controls-container">
+        <i class="fas fa-clock control-icon"></i>
+
+        <div class="play-button" id="playBtn">
+            <i class="fas fa-play" id="playIcon"></i>
+        </div>
+
+        <i class="fas fa-volume-high control-icon" id="volumeIcon"></i>
+    </div>
+
+</main>
+
+<footer class="bottom-section">
+    <div class="social-icons">
+        <a class="social-btn fb" href="https://www.facebook.com/nuevaerafm96" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a class="social-btn insta" href="https://www.instagram.com/djkevin_inthemix?igsh=YzFhZDgwZnN3Nm5u" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a class="social-btn wa" href="https://wa.me/634662193" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <a class="social-btn web" href="https://radionuevaeramalaga.blogspot.com/" target="_blank"><i class="fas fa-globe"></i></a>
+        <a class="social-btn yt" href="https://youtube.com/@nuevaera-v4i?si=1-9WVORHUNGHrYjK"><i class="fab fa-youtube"></i></a>
+    </div>
+
+    <div class="phone-number">634 66 21 93</div>
+</footer>
+
+<audio id="radio">
+    <source src="https://streaming01.radiosenlinea.com.ar/9156/stream" type="audio/mp3">
+</audio>
+
+</div>
+
+<script>
+const playBtn = document.getElementById("playBtn");
+const playIcon = document.getElementById("playIcon");
+const audio = document.getElementById("radio");
+const volumeIcon = document.getElementById("volumeIcon");
+
+let playing = false;
+let muted = false;
+
+playBtn.onclick = () => {
+    if(!playing){
+        audio.load();
+        audio.play();
+        playIcon.className = "fas fa-pause";
+    }else{
+        audio.pause();
+        playIcon.className = "fas fa-play";
+    }
+    playing = !playing;
+};
+
+volumeIcon.onclick = () => {
+    muted = !muted;
+    audio.muted = muted;
+    volumeIcon.className = muted
+        ? "fas fa-volume-xmark control-icon"
+        : "fas fa-volume-high control-icon";
+};
+</script>
+
+</body>
+</html>
